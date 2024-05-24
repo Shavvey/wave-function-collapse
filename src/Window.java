@@ -4,8 +4,8 @@ import java.awt.*;
 public class Window extends JFrame { ;
     private static final int NUM_CELLS = 50;
     private static final int CELL_SIZE = 20;
-    private static Color BACKGROUND_COLOR = Color.BLACK;
-    private static Color DRAW_COLOR = Color.WHITE;
+    private static final Color BACKGROUND_COLOR = Color.BLACK;
+    private static final Color DRAW_COLOR = Color.WHITE;
     // preferred window size of the application
     private static final Dimension WINDOW_SIZE = new Dimension(CELL_SIZE*NUM_CELLS,CELL_SIZE*NUM_CELLS);
     // default constructor for the window class

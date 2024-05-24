@@ -6,7 +6,7 @@ public class Tiles {
     boolean isCollapsed;
 
 
-    // enum type that describes the tile type
+    // enum type that describes the tile type, should have a few types + a rule set for the tiles
     public enum TileType {
 
     }
