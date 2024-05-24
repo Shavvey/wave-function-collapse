@@ -1,16 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Window extends JFrame { ;
-    private static final int NUM_CELLS = 50;
+public class Window extends JFrame {
+    private static int tickRate;
+    // creates a square matrix with the same row and column size, using the var below
+    private static final int NUM_CELLS_PER_ROW = 50;
     private static final int CELL_SIZE = 20;
     private static final Color BACKGROUND_COLOR = Color.BLACK;
-    private static final Color DRAW_COLOR = Color.WHITE;
+    private static final Color GRID_COLOR = Color.WHITE;
+    private static boolean isPaused = false;
+    // tile set used for wave function collapse algorithm
+    // private  Tiles tileSet[][] = new Tiles[NUM_CELLS_PER_ROW][NUM_CELLS_PER_ROW];
     // preferred window size of the application
-    private static final Dimension WINDOW_SIZE = new Dimension(CELL_SIZE*NUM_CELLS,CELL_SIZE*NUM_CELLS);
+    private static final Dimension WINDOW_SIZE =
+            new Dimension(CELL_SIZE* NUM_CELLS_PER_ROW,CELL_SIZE* NUM_CELLS_PER_ROW);
     // default constructor for the window class
     Window() {
-        // calling super to invoke extended JFrame construct
+        // calling super to invoke extended JFrame constructor, which sets the title
         super("Wave Function Collapse");
         // allowing exit to close the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -18,20 +24,36 @@ public class Window extends JFrame { ;
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.setColor(DRAW_COLOR);
+                // set the draw color to init the grid
                 // scaling the draw width based on the found height of the JPanel
                 initGrid(g);
             }
         };
-        // set size and color of the window background
-        mainPanel.setPreferredSize(WINDOW_SIZE);
         mainPanel.setBackground(BACKGROUND_COLOR);
         // add the main panel to the frame
         this.add(mainPanel);
+        // pack the main panel to the frame
+        this.pack();
+        // set the window to be visible
+        this.setVisible(true);
+        // set the preferred size of the window
+        this.setSize(WINDOW_SIZE);
+    }
+    // getter and setter for tick rate, which controls animation speed
+    public static int getTickRate() {
+        return tickRate;
+    }
 
+    public static void setTickRate(int tickRate) {
+        Window.tickRate = tickRate;
+    }
+
+    public static boolean isPaused() {
+        return isPaused;
     }
 
     public void initGrid(Graphics g) {
+        g.setColor(GRID_COLOR);
         // draw the grid lines
         for (int i = 0; i < WINDOW_SIZE.width; i++) {
             for (int j = 0; j < WINDOW_SIZE.height; j++) {
@@ -39,20 +61,11 @@ public class Window extends JFrame { ;
             }
         }
     }
+    // animation loop the window should implement to control the display of the wave function collapse algorithm
+    public void update() {
 
-    public static void main(String[] args) {
-        // use a new thread to handle the execution of the window
-        SwingUtilities.invokeLater(()-> {
-            // create a new window
-            Window window = new Window();
-            // set the window to be visible
-            window.setVisible(true);
-            // set the preferred size of the window
-            window.setSize(WINDOW_SIZE);
-
-        });
-        // end of main
     }
+
 
 }
 
