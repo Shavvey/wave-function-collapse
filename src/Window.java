@@ -2,12 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Window extends JFrame { ;
-    private static final int NUM_CELLS = 100;
+    private static final int NUM_CELLS = 50;
     private static final int CELL_SIZE = 20;
+    private static Color BACKGROUND_COLOR = Color.BLACK;
+    private static Color DRAW_COLOR = Color.WHITE;
     // preferred window size of the application
     private static final Dimension WINDOW_SIZE = new Dimension(CELL_SIZE*NUM_CELLS,CELL_SIZE*NUM_CELLS);
-    int width;
-    int height;
     // default constructor for the window class
     Window() {
         // calling super to invoke extended JFrame construct
@@ -18,18 +18,21 @@ public class Window extends JFrame { ;
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                g.setColor(DRAW_COLOR);
                 // scaling the draw width based on the found height of the JPanel
-                displayIterations(g);
+                initGrid(g);
             }
         };
+        // set size and color of the window background
         mainPanel.setPreferredSize(WINDOW_SIZE);
-        mainPanel.setBackground(Color.BLACK);
+        mainPanel.setBackground(BACKGROUND_COLOR);
+        // add the main panel to the frame
         this.add(mainPanel);
 
     }
 
-    public void displayIterations(Graphics g) {
-        g.setColor(Color.WHITE);
+    public void initGrid(Graphics g) {
+        // draw the grid lines
         for (int i = 0; i < WINDOW_SIZE.width; i++) {
             for (int j = 0; j < WINDOW_SIZE.height; j++) {
                 g.drawRect(i*CELL_SIZE,j*CELL_SIZE, CELL_SIZE,CELL_SIZE);
