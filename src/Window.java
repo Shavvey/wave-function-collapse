@@ -4,16 +4,17 @@ import java.awt.*;
 public class Window extends JFrame {
     private static int tickRate;
     // creates a square matrix with the same row and column size, using the var below
-    private static final int NUM_CELLS_PER_ROW = 50;
-    private static final int CELL_SIZE = 20;
+    private static final int NUM_CELLS_PER_ROW = 10;
+    private static final int CELL_SIZE = 60;
     private static final Color BACKGROUND_COLOR = Color.BLACK;
     private static final Color GRID_COLOR = Color.WHITE;
+    private static final int HEIGHT_OFFSET = 40;
     private static boolean isPaused = false;
     // tile set used for wave function collapse algorithm
     // private  Tiles tileSet[][] = new Tiles[NUM_CELLS_PER_ROW][NUM_CELLS_PER_ROW];
     // preferred window size of the application
     private static final Dimension WINDOW_SIZE =
-            new Dimension(CELL_SIZE* NUM_CELLS_PER_ROW,CELL_SIZE* NUM_CELLS_PER_ROW);
+            new Dimension(CELL_SIZE * NUM_CELLS_PER_ROW,CELL_SIZE * NUM_CELLS_PER_ROW + HEIGHT_OFFSET);
     // default constructor for the window class
     Window() {
         // calling super to invoke extended JFrame constructor, which sets the title
@@ -38,6 +39,8 @@ public class Window extends JFrame {
         this.setVisible(true);
         // set the preferred size of the window
         this.setSize(WINDOW_SIZE);
+        // setting the window to not be, resizable, for now..
+        this.setResizable(false);
     }
     // getter and setter for tick rate, which controls animation speed
     public static int getTickRate() {
@@ -54,15 +57,20 @@ public class Window extends JFrame {
 
     public void initGrid(Graphics g) {
         g.setColor(GRID_COLOR);
+        // some hacky stuff to ignore the window bar, when drawing the grids
+        int width = (int) (WINDOW_SIZE.getWidth()/CELL_SIZE);
+        int height = (int) ((WINDOW_SIZE.getHeight() - HEIGHT_OFFSET)/CELL_SIZE);
+
         // draw the grid lines
-        for (int i = 0; i < WINDOW_SIZE.width; i++) {
-            for (int j = 0; j < WINDOW_SIZE.height; j++) {
-                g.drawRect(i*CELL_SIZE,j*CELL_SIZE, CELL_SIZE,CELL_SIZE);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                g.drawRect(i * CELL_SIZE,j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
             }
         }
     }
+
     // animation loop the window should implement to control the display of the wave function collapse algorithm
-    public void update() {
+    public void update(Graphics g) {
 
     }
 
