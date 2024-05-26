@@ -7,7 +7,6 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             // create a new window
             window = new Window();
-            // update the window based on the tile update
         });
         // update the tile set used for the wave function collapse algorithm
         }

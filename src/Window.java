@@ -9,9 +9,9 @@ public class Window extends JFrame {
     private static final Color BACKGROUND_COLOR = Color.BLACK;
     private static final Color GRID_COLOR = Color.WHITE;
     private static final int HEIGHT_OFFSET = 40;
+    // in the future we should be able to pause the update and display loop
     private static boolean isPaused = false;
     // tile set used for wave function collapse algorithm
-    // private  Tiles tileSet[][] = new Tiles[NUM_CELLS_PER_ROW][NUM_CELLS_PER_ROW];
     // preferred window size of the application
     private static final Dimension WINDOW_SIZE =
             new Dimension(CELL_SIZE * NUM_CELLS_PER_ROW,CELL_SIZE * NUM_CELLS_PER_ROW + HEIGHT_OFFSET);
