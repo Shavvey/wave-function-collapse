@@ -8,7 +8,12 @@ public class Tiles {
 
     // enum type that describes the tile type, should have a few types + a rule set for the tiles
     public enum TileType {
-
+        // creating different tile types
+        BEACH(Color.YELLOW);
+        final Color color;
+        TileType(Color color){
+            this.color = color;
+        }
     }
 
     public boolean isCollapsed() {
