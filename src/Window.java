@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Window extends JFrame {
     // tick rate controls how fast the update and display loop will occur
@@ -87,9 +88,14 @@ public class Window extends JFrame {
                 Tile tile = tileSet.getTile(i,j);
                 boolean collapsed = tile.isCollapsed();
                 if (collapsed) {
-                    // get the color that from the TileType enum
-                    g.setColor(tile.getOptions(0).color);
-                    g.fillRect(i * cellSize,j * cellSize, cellSize, cellSize);
+                    // just get the first option for now
+                    Tile.TileType option = tile.getOptions(0);
+                    // get the a resized image
+                    Image resizedImage = option.image.getScaledInstance(cellSize,cellSize,Image.SCALE_DEFAULT);
+
+                    g.drawImage(resizedImage,0, 0, cellSize, cellSize,null);
+                    g.setColor(Color.BLUE);
+                    //g.fillRect(i * cellSize,j * cellSize, cellSize, cellSize);
                 }
             }
         }

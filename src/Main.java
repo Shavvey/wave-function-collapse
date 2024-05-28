@@ -7,9 +7,9 @@ public class Main {
     public static void main(String[] args) {
         // create a new window
         window = new Window(tileSet);
-        Tile tile = tileSet.getTile(1, 1);
+        Tile tile = tileSet.getTile(0, 0);
         tile.setCollapsed(true);
-        Tile.TileType[] options = {Tile.TileType.BEACH};
+        Tile.TileType[] options = {Tile.TileType.DOWN};
         tile.setOptions(options);
         // repaint the screen
         window.repaint();

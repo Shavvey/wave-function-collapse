@@ -1,4 +1,6 @@
+import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Comparator;
 
 public class Tile implements Comparator<Tile> {
@@ -19,18 +21,13 @@ public class Tile implements Comparator<Tile> {
 
     // enum type that describes the tile type, should have a few types + a rule set for the tiles
     public enum TileType {
-        // creating different tile types
-        // beach tiles can connect to other beach tiles, and ocean and grass tiles
-        BEACH(Color.YELLOW),
-        // ocean tiles can connect to other beach tiles, and beach tiles
-        OCEAN(Color.BLUE),
-        // grass tiles can connect to other grass tiles
-        GRASS(Color.GREEN);
-
-        final Color color;
-        TileType(Color color){
-            this.color = color;
-
+        BLANK("images/blank.png"),
+        UP("images/up.png"),
+        DOWN(new ImageIcon("images/down.png")),
+        lEFT(new ImageIcon("images/left.png")),
+        RIGHT(new ImageIcon("images/right.png"));
+        final BufferedImage image;
+        TileType(String filePath) {
         }
     }
     TileType getOptions(int index) {
