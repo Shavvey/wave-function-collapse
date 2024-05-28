@@ -1,7 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Comparator;
+import java.io.File;
 
 public class Tile implements Comparator<Tile> {
     // this should control the tiles color and rules set
@@ -23,11 +26,19 @@ public class Tile implements Comparator<Tile> {
     public enum TileType {
         BLANK("images/blank.png"),
         UP("images/up.png"),
-        DOWN(new ImageIcon("images/down.png")),
-        lEFT(new ImageIcon("images/left.png")),
-        RIGHT(new ImageIcon("images/right.png"));
+        DOWN("images/down.png"),
+        lEFT("images/left.png"),
+        RIGHT("images/right.png");
         final BufferedImage image;
         TileType(String filePath) {
+            BufferedImage img = null;
+            // use try catch loop to load in image
+            try {
+                img = ImageIO.read(new File(filePath));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            this.image = img;
         }
     }
     TileType getOptions(int index) {

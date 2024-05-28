@@ -90,7 +90,7 @@ public class Window extends JFrame {
                 if (collapsed) {
                     // just get the first option for now
                     Tile.TileType option = tile.getOptions(0);
-                    // get the a resized image
+                    // NOTE: maybe we should do this inside the constructor of the TileType enum
                     Image resizedImage = option.image.getScaledInstance(cellSize,cellSize,Image.SCALE_DEFAULT);
 
                     g.drawImage(resizedImage,0, 0, cellSize, cellSize,null);
