@@ -1,13 +1,15 @@
 public class TileSet {
-    private Tiles[][] tileSet;
+    public Tile[][] tiles;
     // constructor to create the tile set
     public int cellsPerRow;
-    TileSet(int cellsPerRow) {
-        tileSet = new Tiles[cellsPerRow][cellsPerRow];
+    public int cellSize;
+    TileSet(int cellsPerRow, int cellSize) {
+        this.tiles = new Tile[cellsPerRow][cellsPerRow];
         this.cellsPerRow = cellsPerRow;
+        this.cellSize = cellSize;
         for (int i = 0; i < cellsPerRow; ++i) {
             for (int j = 0; j < cellsPerRow; ++j) {
-                // iterate through all the cells of the tile set
+                tiles[i][j] = new Tile();
             }
         }
     }
