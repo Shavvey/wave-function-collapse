@@ -29,11 +29,9 @@ public class Window extends JFrame {
         JPanel mainPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
+                g.setColor(GRID_COLOR);
                 super.paintComponent(g);
-                // set the draw color to init the grid
-                // scaling the draw width based on the found height of the JPanel
-                initGrid(g);
-                // draw the tile set
+                // call draw method
                 drawTileSet(g);
             }
         };
@@ -62,19 +60,6 @@ public class Window extends JFrame {
         return isPaused;
     }
 
-    public void initGrid(Graphics g) {
-        // some hacky stuff to ignore the window bar, when drawing the grids
-        int width = tileSet.getCellsPerRow();
-        int height =  tileSet.getCellsPerRow();
-        int cellSize = tileSet.getCellSize();
-        g.setColor(GRID_COLOR);
-        // draw the grid lines
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                g.drawRect(i * cellSize,j * cellSize, cellSize, cellSize);
-            }
-        }
-    }
 
     // animation loop the window should implement to control the display of the wave function collapse algorithm
     public void drawTileSet(Graphics g) {
@@ -92,10 +77,9 @@ public class Window extends JFrame {
                     Tile.TileType option = tile.getOptions(0);
                     // NOTE: maybe we should do this inside the constructor of the TileType enum
                     Image resizedImage = option.image.getScaledInstance(cellSize,cellSize,Image.SCALE_DEFAULT);
-
                     g.drawImage(resizedImage,0, 0, cellSize, cellSize,null);
-                    g.setColor(Color.BLUE);
-                    //g.fillRect(i * cellSize,j * cellSize, cellSize, cellSize);
+                } else {
+                    g.drawRect(i * cellSize,j * cellSize, cellSize, cellSize);
                 }
             }
         }

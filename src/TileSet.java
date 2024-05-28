@@ -9,6 +9,7 @@ public class TileSet {
         this.cellSize = cellSize;
         for (int i = 0; i < cellsPerRow; ++i) {
             for (int j = 0; j < cellsPerRow; ++j) {
+                // construct the new tiles
                 tiles[i][j] = new Tile();
             }
         }

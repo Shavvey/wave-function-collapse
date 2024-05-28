@@ -1,6 +1,4 @@
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Comparator;
@@ -24,13 +22,15 @@ public class Tile implements Comparator<Tile> {
 
     // enum type that describes the tile type, should have a few types + a rule set for the tiles
     public enum TileType {
-        BLANK("images/blank.png"),
-        UP("images/up.png"),
-        DOWN("images/down.png"),
-        lEFT("images/left.png"),
-        RIGHT("images/right.png");
+        BLANK("images/blank.png", new int[]{0, 0, 0, 0}),
+        UP("images/up.png",new int[]{1, 1, 1, 0}),
+        DOWN("images/down.png",new int[]{1, 0, 1, 1}),
+        lEFT("images/left.png",new int[]{1, 1, 0, 1}),
+        RIGHT("images/right.png",new int[]{0, 1, 1, 1});
+        final int[] edges;
         final BufferedImage image;
-        TileType(String filePath) {
+        TileType(String filePath, int[] edges) {
+            this.edges = edges;
             BufferedImage img = null;
             // use try catch loop to load in image
             try {

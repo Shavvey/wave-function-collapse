@@ -1,5 +1,7 @@
 import javax.swing.*;
 public class Main {
+    public static int CELL_SIZE = 50;
+    public static int CELLS_PER_ROW = 10;
     // create a new window to run the wave function collapse algorithm
     private static Window window;
     // create the tile set, the window will have a reference to this tile set in order to display it
