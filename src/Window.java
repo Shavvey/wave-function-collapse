@@ -20,7 +20,9 @@ public class Window extends JFrame {
         // calling super to invoke extended JFrame constructor, which sets the title
         super("Wave Function Collapse");
         this.tileSet = tileSet;
-        final Dimension WINDOW_SIZE = new Dimension(tileSet.cellsPerRow * tileSet.cellSize, tileSet.cellsPerRow*tileSet.cellSize + HEIGHT_OFFSET);
+        int cellsPerRow = tileSet.getCellsPerRow();
+        int cellSize = tileSet.getCellSize();
+        final Dimension WINDOW_SIZE = new Dimension(cellsPerRow * cellSize, cellsPerRow * cellSize + HEIGHT_OFFSET);
         // allowing exit to close the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel mainPanel = new JPanel() {
@@ -30,6 +32,8 @@ public class Window extends JFrame {
                 // set the draw color to init the grid
                 // scaling the draw width based on the found height of the JPanel
                 initGrid(g);
+                // draw the tile set
+                drawTileSet(g);
             }
         };
         mainPanel.setBackground(Color.BLACK);
@@ -59,9 +63,9 @@ public class Window extends JFrame {
 
     public void initGrid(Graphics g) {
         // some hacky stuff to ignore the window bar, when drawing the grids
-        int width = tileSet.cellsPerRow;
-        int height =  tileSet.cellsPerRow;
-        int cellSize = tileSet.cellSize;
+        int width = tileSet.getCellsPerRow();
+        int height =  tileSet.getCellsPerRow();
+        int cellSize = tileSet.getCellSize();
         g.setColor(GRID_COLOR);
         // draw the grid lines
         for (int i = 0; i < width; i++) {
@@ -72,24 +76,21 @@ public class Window extends JFrame {
     }
 
     // animation loop the window should implement to control the display of the wave function collapse algorithm
-    public void update(Graphics g) {
+    public void drawTileSet(Graphics g) {
         // some hacky stuff to ignore the window bar, when drawing the grids
-        int width = tileSet.cellsPerRow;
-        int height =  tileSet.cellsPerRow;
-        int cellSize = tileSet.cellSize;
+        int width = tileSet.getCellsPerRow();
+        int height = tileSet.getCellsPerRow();
+        int cellSize = tileSet.getCellSize();
         // draw the grid lines
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                Tile tile = tileSet.tiles[i][j];
-                boolean collapsed = tileSet.tiles[i][j].isCollapsed();
+                Tile tile = tileSet.getTile(i,j);
+                boolean collapsed = tile.isCollapsed();
                 if (collapsed) {
                     // get the color that from the TileType enum
                     g.setColor(tile.getOptions(0).color);
-                } else {
-                    g.setColor(COLLAPSED_COLOR);
+                    g.fillRect(i * cellSize,j * cellSize, cellSize, cellSize);
                 }
-
-                g.fillRect(i * cellSize,j * cellSize, cellSize, cellSize);
             }
         }
     }

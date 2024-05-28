@@ -30,6 +30,14 @@ public class Tile {
         return isCollapsed;
     }
 
+    public void setCollapsed(boolean collapsed) {
+        isCollapsed = collapsed;
+    }
+
+    public void setOptions(TileType[] options) {
+        this.options = options;
+    }
+
     Tile() {
         // tiles shouldn't be collapsed yet when constructing the tiles
         isCollapsed = false;

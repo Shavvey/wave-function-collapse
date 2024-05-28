@@ -1,8 +1,8 @@
 public class TileSet {
-    public Tile[][] tiles;
+    private Tile[][] tiles;
     // constructor to create the tile set
-    public int cellsPerRow;
-    public int cellSize;
+    private int cellsPerRow;
+    private int cellSize;
     TileSet(int cellsPerRow, int cellSize) {
         this.tiles = new Tile[cellsPerRow][cellsPerRow];
         this.cellsPerRow = cellsPerRow;
@@ -12,5 +12,17 @@ public class TileSet {
                 tiles[i][j] = new Tile();
             }
         }
+    }
+
+    public int getCellsPerRow() {
+        return cellsPerRow;
+    }
+
+    public int getCellSize() {
+        return cellSize;
+    }
+
+    Tile getTile(int x, int y) {
+        return tiles[x][y];
     }
 }
