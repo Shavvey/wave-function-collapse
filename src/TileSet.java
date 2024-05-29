@@ -27,8 +27,8 @@ public class TileSet {
         this.cellSize = cellSize;
         for (int i = 0; i < cellsPerRow; ++i) {
             for (int j = 0; j < cellsPerRow; ++j) {
-                // construct the new tiles
-                tiles[i][j] = new Tile();
+                // construct the new tiles, keep track of where they are in the tileset using i,j
+                tiles[i][j] = new Tile(i,j);
             }
         }
     }
@@ -39,7 +39,7 @@ public class TileSet {
         // get indices into 2d array
         int idx1 = rand.nextInt(len);
         int idx2 = rand.nextInt(len);
-        // return the a tile randomly indexed from the array
+        // return a tile randomly indexed from the array
         return tiles[idx1][idx2];
 
     }
@@ -71,7 +71,7 @@ public class TileSet {
         for (Tile t : tileList) {
             System.out.println("Compare val: " + t.entropy());
         }
-        Tile tile = getRandom();
+
 
     }
 }

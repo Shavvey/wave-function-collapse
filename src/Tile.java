@@ -1,10 +1,14 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Comparator;
 import java.io.File;
 
 public class Tile {
+    // row index
+    int x;
+    // column index
+    int y;
+    // should index into the tileset using tileset[x][y]
     // this should control the tiles color and rules set
     private boolean isCollapsed;
     // the number of options a cell can be at a given moment
@@ -53,9 +57,12 @@ public class Tile {
         this.options = options;
     }
 
-    Tile() {
+    Tile(int x, int y) {
         // tiles shouldn't be collapsed yet when constructing the tiles
         isCollapsed = false;
         this.options = TileType.values();
+        // keeping track of these indices will be useful later on
+        this.x = x;
+        this.y = y;
     }
 }
