@@ -45,6 +45,7 @@ public class Tile {
     }
 
     public void setCollapsed(boolean collapsed) {
+        // set the boolean collapsed value
         isCollapsed = collapsed;
     }
 

@@ -79,6 +79,7 @@ public class Window extends JFrame {
                     Image resizedImage = option.image.getScaledInstance(cellSize,cellSize,Image.SCALE_DEFAULT);
                     g.drawImage(resizedImage,0, 0, cellSize, cellSize,null);
                 } else {
+                    // if the tiles is not collapsed yet, just draw the grid where the cell is inside the window
                     g.drawRect(i * cellSize,j * cellSize, cellSize, cellSize);
                 }
             }
