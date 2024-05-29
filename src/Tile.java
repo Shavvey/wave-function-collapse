@@ -4,19 +4,14 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.io.File;
 
-public class Tile implements Comparator<Tile> {
+public class Tile {
     // this should control the tiles color and rules set
     private boolean isCollapsed;
     // the number of options a cell can be at a given moment
     private TileType[] options;
 
-    @Override
-    public int compare(Tile t1, Tile t2) {
-        int len1 = t1.options.length;
-        int len2 = t2.options.length;
-        // compare the number of possible options the two tiles still have
-        // this is serves as the rudimentary measure of "entropy"
-        return Integer.compare(len1, len2);
+    public int entropy() {
+        return options.length;
     }
 
 

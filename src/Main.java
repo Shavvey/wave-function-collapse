@@ -15,5 +15,6 @@ public class Main {
         tile.setOptions(options);
         // repaint the screen
         window.repaint();
+        tileSet.update();
     }
 }
