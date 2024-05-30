@@ -16,7 +16,7 @@ public class Main {
         tile.setOptions(options);
         // repaint the screen
         window.repaint();
-        // update the tile set via collapsing a tile, and propagating the information to neighbouring tiles
+        // update the tile set via collapsing a tile, and update neighbouring tiles
         tileSet.update();
     }
 }

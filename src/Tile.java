@@ -2,20 +2,23 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tile {
     // row index
-    int x;
+    private final int x;
     // column index
-    int y;
+    private final int y;
     // should index into the tileset using tileset[x][y]
     // this should control the tiles color and rules set
     private boolean isCollapsed;
     // the number of options a cell can be at a given moment
-    private TileType[] options;
+    private List<TileType> options;
 
     public int entropy() {
-        return options.length;
+        return options.size();
+
     }
 
 
@@ -41,7 +44,7 @@ public class Tile {
         }
     }
     TileType getOptions(int index) {
-        return options[index];
+        return options.get(index);
     }
 
     public boolean isCollapsed() {
@@ -54,13 +57,22 @@ public class Tile {
     }
 
     public void setOptions(TileType[] options) {
-        this.options = options;
+        this.options = List.of(options);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     Tile(int x, int y) {
         // tiles shouldn't be collapsed yet when constructing the tiles
         isCollapsed = false;
-        this.options = TileType.values();
+        this.options = new ArrayList<>(TileType.values().length);
+        options.addAll(List.of(TileType.values()));
         // keeping track of these indices will be useful later on
         this.x = x;
         this.y = y;

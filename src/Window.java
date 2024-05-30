@@ -11,7 +11,6 @@ public class Window extends JFrame {
     private static final int HEIGHT_OFFSET = 40;
     // in the future we should be able to pause the update and display loop
     private static boolean isPaused = false;
-    private static final  Color COLLAPSED_COLOR = Color.BLACK;
     private static final Color GRID_COLOR = Color.WHITE;
     // tile set used for wave function collapse algorithm
     // preferred window size of the application
