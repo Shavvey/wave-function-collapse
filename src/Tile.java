@@ -24,14 +24,17 @@ public class Tile {
 
     // enum type that describes the tile type, should have a few types + a rule set for the tiles
     public enum TileType {
-        BLANK("images/blank.png", new int[]{0, 0, 0, 0}),
-        UP("images/up.png",new int[]{1, 1, 1, 0}),
-        DOWN("images/down.png",new int[]{1, 0, 1, 1}),
-        lEFT("images/left.png",new int[]{1, 1, 0, 1}),
-        RIGHT("images/right.png",new int[]{0, 1, 1, 1});
-        final int[] edges;
+        // two different types of edges, type A: one without a connecting line, and type B: one with a connecting line
+        BLANK("images/blank.png", "AAAA"),
+        UP("images/up.png","BABB"),
+        DOWN("images/down.png","BBAB"),
+        lEFT("images/left.png","BBBA"),
+        RIGHT("images/right.png","ABBB");
+        final String edges
         final BufferedImage image;
-        TileType(String filePath, int[] edges) {
+        // edges should be arranged LEFT UP DOWN RIGHT -> such that they can
+        // be reversed to compare RIGHT DOWN UP LEFT, comparing connecting edges of neighboring tiles
+        TileType(String filePath, String edges) {
             this.edges = edges;
             BufferedImage img = null;
             // use try catch loop to load in image
@@ -41,6 +44,13 @@ public class Tile {
                 e.printStackTrace();
             }
             this.image = img;
+        }
+        public String getEdges() {
+            return edges;
+        }
+        public String getReverseEdges() {
+            // get the reverse of the string edges
+            return new StringBuilder(edges).reverse().toString();
         }
     }
     TileType getOptions(int index) {
