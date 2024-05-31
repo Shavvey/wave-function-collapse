@@ -10,13 +10,7 @@ public class Main {
     public static void main(String[] args) {
         // window has a reference to the created tile set in order to draw its results to the screen
         window = new Window(tileSet);
-        Tile tile = tileSet.getTile(0, 0);
-        tile.setCollapsed(true);
-        Tile.TileType[] options = {Tile.TileType.UP};
-        tile.setOptions(options);
-        // repaint the screen
-        window.repaint();
-        // update the tile set via collapsing a tile, and update neighbouring tiles
         tileSet.update();
+        window.repaint();
     }
 }

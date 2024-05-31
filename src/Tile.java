@@ -30,7 +30,7 @@ public class Tile {
         DOWN("images/down.png","BBAB"),
         lEFT("images/left.png","BBBA"),
         RIGHT("images/right.png","ABBB");
-        final String edges
+        final String edges;
         final BufferedImage image;
         // edges should be arranged LEFT UP DOWN RIGHT -> such that they can
         // be reversed to compare RIGHT DOWN UP LEFT, comparing connecting edges of neighboring tiles
@@ -66,8 +66,8 @@ public class Tile {
         isCollapsed = collapsed;
     }
 
-    public void setOptions(TileType[] options) {
-        this.options = List.of(options);
+    public void setOptions(List<TileType> options) {
+        this.options = options;
     }
 
     public int getX() {

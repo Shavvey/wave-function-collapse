@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 public class TileSet {
@@ -68,9 +69,15 @@ public class TileSet {
         }
         // sort the non-collapsed tiles by the amount of entropy the tiles contain
         tileList.sort(compare);
-        for (Tile t : tileList) {
-            System.out.println("Compare val: " + t.entropy());
-        }
+        Tile minTile = tileList.getFirst();
+        // collapse the first tile and then update the neighboring tiles
+        final int len = minTile.entropy();
+        // pick a random options from the original set of options
+        Tile.TileType opt = minTile.getOptions(rand.nextInt(len));
+        minTile.setOptions(List.of(opt));
+        minTile.setCollapsed(true);
+        int x = minTile.getX();
+        int y = minTile.getY();
 
 
     }
