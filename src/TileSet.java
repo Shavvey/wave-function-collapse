@@ -1,12 +1,11 @@
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
 public class TileSet {
-    private Tile[][] tiles;
+    private final Tile[][] tiles;
     private int numCollapsed;
     // implementing a comparator for the
     private final static Comparator<Tile> compare = (t1, t2) -> {
@@ -30,7 +29,8 @@ public class TileSet {
         DOWN(0,1),
         UP(0,-1),
         RIGHT(1,0);
-        int x, y;
+        final int x;
+        final int y;
         Direction(int x, int y) {
             this.x = x;
             this.y = y;
@@ -117,9 +117,8 @@ public class TileSet {
         Tile tile = tileList.get(randVal);
         // collapse the first tile and then update the neighboring tiles
         final int len = tile.entropy();
-        System.out.println("Entropy:" + len);
         Tile.TileType opt;
-        opt = tile.getOptions(rand.nextInt(len));
+        opt = tile.getOptions(rand.nextInt(0,len));
         tile.setOptions(List.of(opt));
         tile.setCollapsed(true);
         // tally the amount of tiles currently collapsed

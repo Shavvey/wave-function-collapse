@@ -1,25 +1,26 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class Window extends JFrame {
     // tick rate controls how fast the update and display loop will occur
     // NOTE: maybe this should be inside the main class???
-    private static int tickRate;
+    private final int tickRate;
     // used to display the state of the tile set as the algorithm continues
     TileSet tileSet;
     private static final int HEIGHT_OFFSET = 40;
     // in the future we should be able to pause the update and display loop
-    private boolean isPaused = false;
+    private boolean isPaused;
     private static final Color GRID_COLOR = Color.WHITE;
     // tile set used for wave function collapse algorithm
     // preferred window size of the application
 
     // default constructor for the window class
-    Window(TileSet tileSet) {
+    Window(TileSet tileSet, int tickRate) {
         // calling super to invoke extended JFrame constructor, which sets the title
         super("Wave Function Collapse");
+        this.isPaused = true;
         this.tileSet = tileSet;
+        this.tickRate = tickRate;
         int cellsPerRow = tileSet.getCellsPerRow();
         int cellSize = tileSet.getCellSize();
         final Dimension WINDOW_SIZE = new Dimension(cellsPerRow * cellSize, cellsPerRow * cellSize + HEIGHT_OFFSET);
@@ -34,11 +35,14 @@ public class Window extends JFrame {
                 drawTileSet(g);
             }
         };
+        JPanel buttonPanel = getjPanel();
         mainPanel.setBackground(Color.BLACK);
         // add the main panel to the frame
-        this.add(mainPanel);
+        this.add(mainPanel,BorderLayout.CENTER);
+        this.add(buttonPanel,BorderLayout.PAGE_START);
         // pack the main panel to the frame
         this.pack();
+        mainPanel.requestFocusInWindow();
         // set the window to be visible
         this.setVisible(true);
         // set the preferred size of the window
@@ -46,18 +50,44 @@ public class Window extends JFrame {
         // setting the window to not be, resizable, for now..
         this.setResizable(false);
     }
-    // getter and setter for tick rate, which controls animation speed
-    public static int getTickRate() {
-        return tickRate;
+
+    private JPanel getjPanel() {
+        JButton pauseButton = new JButton("Unpause");
+
+        pauseButton.addActionListener(_ -> {
+            if(isPaused) {
+                isPaused = false;
+                pauseButton.setText("Pause");
+            } else {
+                isPaused = true;
+                pauseButton.setText("Unpause");
+            }
+        });
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(pauseButton);
+        return buttonPanel;
     }
 
-    public static void setTickRate(int tickRate) {
-        Window.tickRate = tickRate;
+    private void delay(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (Exception ex) {
+            System.err.println("Error: could not sleep thread...");
+        }
+
+    }
+    public void animate() {
+        int delay = 1000 / tickRate;
+        // continue animating if tileset is not complete and window is not paused
+        while (!tileSet.isComplete() && isPaused) {
+            System.out.println("While loop running!");
+            tileSet.update();
+            repaint();
+            // insert delay in update and render loop
+            delay(delay);
+        }
     }
 
-    public boolean isPaused() {
-        return isPaused;
-    }
 
 
     // animation loop the window should implement to control the display of the wave function collapse algorithm
