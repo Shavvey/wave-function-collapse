@@ -14,7 +14,7 @@ public class Tile {
     // this should control the tiles color and rules set
     private boolean isCollapsed;
     // the number of options a cell can be at a given moment
-    private List<TileType> options;
+    protected List<TileType> options;
 
     public int entropy() {
         return options.size();
@@ -76,6 +76,10 @@ public class Tile {
     public int getY() {
         return y;
     }
+    // mod that can handle negative numbers
+    static public int mod(int a, int b) {
+        return (a%b + b) % b;
+    }
 
     Tile(int x, int y) {
         // tiles shouldn't be collapsed yet when constructing the tiles
@@ -86,10 +90,5 @@ public class Tile {
         this.x = x;
         this.y = y;
     }
-    // method to propagate information to a collapse tile
-    public void propagate() {
-        // get the first tile option, if collapsed, this should be
-        TileType opt = options.getFirst();
 
-    }
 }

@@ -6,6 +6,7 @@ import java.util.Random;
 
 public class TileSet {
     private Tile[][] tiles;
+    private int numCollapsed;
     // implementing a comparator for the
     private final static Comparator<Tile> compare = (t1, t2) -> {
         int len1 = t1.entropy();
@@ -44,6 +45,9 @@ public class TileSet {
         return tiles[idx1][idx2];
 
     }
+    public boolean isComplete() {
+        return (numCollapsed == (cellsPerRow*cellsPerRow));
+    }
 
     public int getCellsPerRow() {
         return cellsPerRow;
@@ -56,6 +60,45 @@ public class TileSet {
     Tile getTile(int x, int y) {
         return tiles[x][y];
     }
+    // method to propagate information to a collapse tile
+    public void propagate(Tile tile) {
+        // get the first tile option, if collapsed, this should be
+        Tile.TileType opt = tile.getOptions(0);
+        // LEFT DOWN UP RIGHT
+        // look at each of the possible types of neighboring tiles and collapse down impossible combinations
+        int cx = tile.getX();
+        int cy = tile.getY();
+        // get edges but reverse them
+        String cEdges = opt.getReverseEdges();
+        for (int dx = -1; dx <= 1; ++dx) {
+            for (int dy = -1; dy <= 1; ++dy) {
+                // check to see if we are at the center, which we do not want to check
+                boolean center = (dx == 0 && dy == 0);
+                if (!center) {
+                    // get x and y indices for each neighboring tile
+                    int x = Tile.mod(cx + dx, this.cellsPerRow);
+                    int y = Tile.mod(cy + dy, this.cellsPerRow);
+                    Tile t = tiles[x][y];
+                    int size = t.entropy();
+                    for (int e = 0; e < size; ++e) {
+                        // get the possible edges
+                        Tile.TileType pos = t.getOptions(e);
+                        String edges = pos.getEdges();
+                        int len = edges.length();
+                        for (int i = 0; i < len; i++) {
+                            char te = edges.charAt(i);
+                            char ce = cEdges.charAt(i);
+                            // collapse possibility if center and tile edge do not match
+                            if (ce != te && ce == 'a') {
+                                t.options.remove(pos);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public void update() {
         // copy the tiles inside the arraylist, with a capacity for the entire tiles array
         ArrayList<Tile> tileList = new ArrayList<>(tiles.length);
@@ -86,7 +129,9 @@ public class TileSet {
         Tile.TileType opt = tile.getOptions(rand.nextInt(len));
         tile.setOptions(List.of(opt));
         tile.setCollapsed(true);
-
-
+        // tally the amount of tiles currently collapsed
+        numCollapsed++;
+        // propagate tile information
+        propagate(tile);
     }
 }
