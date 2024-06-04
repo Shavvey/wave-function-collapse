@@ -70,14 +70,22 @@ public class TileSet {
         // sort the non-collapsed tiles by the amount of entropy the tiles contain
         tileList.sort(compare);
         Tile minTile = tileList.getFirst();
+        int minEntropy = minTile.entropy();
+        int minCount = 0;
+        for (Tile t : tileList) {
+            if(t.entropy() == minEntropy) {
+                minCount++;
+            }
+        }
+
+        int randVal = rand.nextInt(minCount);
+        Tile tile = tileList.get(randVal);
         // collapse the first tile and then update the neighboring tiles
-        final int len = minTile.entropy();
+        final int len = tile.entropy();
         // pick a random options from the original set of options
-        Tile.TileType opt = minTile.getOptions(rand.nextInt(len));
-        minTile.setOptions(List.of(opt));
-        minTile.setCollapsed(true);
-        int x = minTile.getX();
-        int y = minTile.getY();
+        Tile.TileType opt = tile.getOptions(rand.nextInt(len));
+        tile.setOptions(List.of(opt));
+        tile.setCollapsed(true);
 
 
     }

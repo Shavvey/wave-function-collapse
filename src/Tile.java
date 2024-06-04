@@ -21,7 +21,6 @@ public class Tile {
 
     }
 
-
     // enum type that describes the tile type, should have a few types + a rule set for the tiles
     public enum TileType {
         // two different types of edges, type A: one without a connecting line, and type B: one with a connecting line
@@ -86,5 +85,11 @@ public class Tile {
         // keeping track of these indices will be useful later on
         this.x = x;
         this.y = y;
+    }
+    // method to propagate information to a collapse tile
+    public void propagate() {
+        // get the first tile option, if collapsed, this should be
+        TileType opt = options.getFirst();
+
     }
 }
