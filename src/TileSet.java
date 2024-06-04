@@ -1,4 +1,5 @@
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -23,6 +24,18 @@ public class TileSet {
     // constructor to create the tile set
     private final int cellsPerRow;
     private final int cellSize;
+    // use this to apply direction
+    enum Direction {
+        LEFT(-1,0),
+        DOWN(0,1),
+        UP(0,-1),
+        RIGHT(1,0);
+        int x, y;
+        Direction(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
     TileSet(int cellsPerRow, int cellSize) {
         this.tiles = new Tile[cellsPerRow][cellsPerRow];
         this.cellsPerRow = cellsPerRow;
@@ -34,17 +47,7 @@ public class TileSet {
             }
         }
     }
-
-    // get a random tile from the tile set
-    public Tile getRandom() {
-        int len = tiles.length;
-        // get indices into 2d array
-        int idx1 = rand.nextInt(len);
-        int idx2 = rand.nextInt(len);
-        // return a tile randomly indexed from the array
-        return tiles[idx1][idx2];
-
-    }
+    // boolean to check whether the full tileset has been collapsed
     public boolean isComplete() {
         return (numCollapsed == (cellsPerRow*cellsPerRow));
     }
@@ -60,43 +63,32 @@ public class TileSet {
     Tile getTile(int x, int y) {
         return tiles[x][y];
     }
+
     // method to propagate information to a collapse tile
     public void propagate(Tile tile) {
         // get the first tile option, if collapsed, this should be
-        Tile.TileType opt = tile.getOptions(0);
+        String edges = tile.getOptions(0).getEdges();
         // LEFT DOWN UP RIGHT
         // look at each of the possible types of neighboring tiles and collapse down impossible combinations
         int cx = tile.getX();
         int cy = tile.getY();
         // get edges but reverse them
-        String cEdges = opt.getReverseEdges();
-        for (int dx = -1; dx <= 1; ++dx) {
-            for (int dy = -1; dy <= 1; ++dy) {
-                // check to see if we are at the center, which we do not want to check
-                boolean center = (dx == 0 && dy == 0);
-                if (!center) {
-                    // get x and y indices for each neighboring tile
-                    int x = Tile.mod(cx + dx, this.cellsPerRow);
-                    int y = Tile.mod(cy + dy, this.cellsPerRow);
-                    Tile t = tiles[x][y];
-                    int size = t.entropy();
-                    for (int e = 0; e < size; ++e) {
-                        // get the possible edges
-                        Tile.TileType pos = t.getOptions(e);
-                        String edges = pos.getEdges();
-                        int len = edges.length();
-                        for (int i = 0; i < len; i++) {
-                            char te = edges.charAt(i);
-                            char ce = cEdges.charAt(i);
-                            // collapse possibility if center and tile edge do not match
-                            if (ce != te && ce == 'a') {
-                                t.options.remove(pos);
-                            }
-                        }
-                    }
-                }
+        for (Direction dir : Direction.values()) {
+            int dx = dir.x;
+            int dy = dir.y;
+            // get x and y indices for each neighboring tile
+            int x = Tile.mod(cx + dx, this.cellsPerRow);
+            int y = Tile.mod(cy + dy, this.cellsPerRow);
+            // get the neighboring tiles
+            Tile neighbor = tiles[x][y];
+            neighbor.collapse(edges,dir);
+            // deal with an edge case where no valid tile exist, in which case use a blank tile
+            if(neighbor.entropy() == 0) {
+                neighbor.setOptions(List.of(Tile.TileType.BLANK));
             }
+
         }
+
     }
 
     public void update() {
@@ -125,8 +117,9 @@ public class TileSet {
         Tile tile = tileList.get(randVal);
         // collapse the first tile and then update the neighboring tiles
         final int len = tile.entropy();
-        // pick a random options from the original set of options
-        Tile.TileType opt = tile.getOptions(rand.nextInt(len));
+        System.out.println("Entropy:" + len);
+        Tile.TileType opt;
+        opt = tile.getOptions(rand.nextInt(len));
         tile.setOptions(List.of(opt));
         tile.setCollapsed(true);
         // tally the amount of tiles currently collapsed

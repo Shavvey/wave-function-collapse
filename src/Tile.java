@@ -25,14 +25,14 @@ public class Tile {
     public enum TileType {
         // two different types of edges, type A: one without a connecting line, and type B: one with a connecting line
         BLANK("images/blank.png", "AAAA"),
-        UP("images/up.png","BABB"),
-        DOWN("images/down.png","BBAB"),
-        lEFT("images/left.png","BBBA"),
+        UP("images/up.png","BBAB"),
+        DOWN("images/down.png","BABB"),
+        LEFT("images/left.png","BBBA"),
         RIGHT("images/right.png","ABBB");
         final String edges;
         final BufferedImage image;
-        // edges should be arranged LEFT UP DOWN RIGHT -> such that they can
-        // be reversed to compare RIGHT DOWN UP LEFT, comparing connecting edges of neighboring tiles
+        // edges should be arranged LEFT UP DOWN RIGHT
+        //
         TileType(String filePath, String edges) {
             this.edges = edges;
             BufferedImage img = null;
@@ -78,7 +78,54 @@ public class Tile {
     }
     // mod that can handle negative numbers
     static public int mod(int a, int b) {
-        return (a%b + b) % b;
+        return (a % b + b) % b;
+    }
+
+    // use this function to collapse tiles
+    public void collapse(String edges, TileSet.Direction dir) {
+        // LEFT DOWN UP RIGHT (0,1,2,3)
+        List<TileType> valid = new ArrayList<>();
+        switch (dir) {
+            // look at right-center and left-neighbour edges to see if they match
+            case LEFT -> {
+                // loop through options, left and right need to match
+                for (TileType opt : options) {
+                    String nEdges = opt.getEdges();
+                    if(edges.charAt(0) == nEdges.charAt(3)) {
+                        valid.add(opt);
+                    }
+                }
+                this.setOptions(valid);
+            }
+            case DOWN -> {
+                for (TileType opt : options) {
+                    String nEdges = opt.getEdges();
+                    if(edges.charAt(1) == nEdges.charAt(2)) {
+                        valid.add(opt);
+                    }
+                }
+                this.setOptions(valid);
+            }
+            case UP -> {
+                for (TileType opt : options) {
+                    String nEdges = opt.getEdges();
+                    if(edges.charAt(2) == nEdges.charAt(1)) {
+                        valid.add(opt);
+                    }
+                }
+                this.setOptions(valid);
+            }
+            case RIGHT -> {
+                for (TileType opt : options) {
+                    String nEdges = opt.getEdges();
+                    if(edges.charAt(3) == nEdges.charAt(0)) {
+                        valid.add(opt);
+                    }
+                }
+                this.setOptions(valid);
+            }
+        }
+
     }
 
     Tile(int x, int y) {
