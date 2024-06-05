@@ -7,6 +7,7 @@ import java.util.Random;
 public class TileSet {
     private final Tile[][] tiles;
     private int numCollapsed;
+    ArrayList<Tile> tileList;
     // implementing a comparator for the
     private final static Comparator<Tile> compare = (t1, t2) -> {
         int len1 = t1.entropy();
@@ -46,6 +47,17 @@ public class TileSet {
                 tiles[i][j] = new Tile(i,j);
             }
         }
+        // copy the tiles inside the arraylist, with a capacity for the entire tiles array
+        tileList = new ArrayList<>(tiles.length);
+        for (Tile[] tiles : tiles) {
+            for(Tile tile : tiles) {
+                if(!tile.isCollapsed()) {
+                    // add all non collapsed tiles to the arraylist
+                    tileList.add(tile);
+                }
+            }
+        }
+
     }
     // boolean to check whether the full tileset has been collapsed
     public boolean isComplete() {
@@ -92,16 +104,6 @@ public class TileSet {
     }
 
     public void update() {
-        // copy the tiles inside the arraylist, with a capacity for the entire tiles array
-        ArrayList<Tile> tileList = new ArrayList<>(tiles.length);
-        for (Tile[] tiles : tiles) {
-            for(Tile tile : tiles) {
-                if(!tile.isCollapsed()) {
-                    // add all non collapsed tiles to the arraylist
-                    tileList.add(tile);
-                }
-            }
-        }
         // sort the non-collapsed tiles by the amount of entropy the tiles contain
         tileList.sort(compare);
         Tile minTile = tileList.getFirst();
@@ -121,6 +123,8 @@ public class TileSet {
         opt = tile.getOptions(rand.nextInt(0,len));
         tile.setOptions(List.of(opt));
         tile.setCollapsed(true);
+        // remove collapsed tile from tileList
+        tileList.remove(tile);
         // tally the amount of tiles currently collapsed
         numCollapsed++;
         // propagate tile information

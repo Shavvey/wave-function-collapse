@@ -10,6 +10,9 @@ public class Main {
         // window has a reference to the created tile set in order to draw its results to the screen
         // create a new window to run the wave function collapse algorithm
         Window window = new Window(tileSet,TICK_RATE);
-        window.animate();
+        while(!tileSet.isComplete()) {
+            //System.out.print("");
+            window.animate();
+        }
     }
 }

@@ -35,6 +35,7 @@ public class Window extends JFrame {
                 drawTileSet(g);
             }
         };
+
         JPanel buttonPanel = getjPanel();
         mainPanel.setBackground(Color.BLACK);
         // add the main panel to the frame
@@ -42,7 +43,6 @@ public class Window extends JFrame {
         this.add(buttonPanel,BorderLayout.PAGE_START);
         // pack the main panel to the frame
         this.pack();
-        mainPanel.requestFocusInWindow();
         // set the window to be visible
         this.setVisible(true);
         // set the preferred size of the window
@@ -52,6 +52,7 @@ public class Window extends JFrame {
     }
 
     private JPanel getjPanel() {
+        JPanel buttonPanel = new JPanel();
         JButton pauseButton = new JButton("Unpause");
 
         pauseButton.addActionListener(_ -> {
@@ -62,8 +63,8 @@ public class Window extends JFrame {
                 isPaused = true;
                 pauseButton.setText("Unpause");
             }
+
         });
-        JPanel buttonPanel = new JPanel();
         buttonPanel.add(pauseButton);
         return buttonPanel;
     }
@@ -79,11 +80,12 @@ public class Window extends JFrame {
     public void animate() {
         int delay = 1000 / tickRate;
         // continue animating if tileset is not complete and window is not paused
-        while (!tileSet.isComplete() && isPaused) {
-            System.out.println("While loop running!");
+        if(!isPaused) {
             tileSet.update();
             repaint();
             // insert delay in update and render loop
+            delay(delay);
+        } else {
             delay(delay);
         }
     }
