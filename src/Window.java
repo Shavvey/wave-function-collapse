@@ -107,8 +107,7 @@ public class Window extends JFrame {
                     // just get the first option for now
                     TileType option = tile.getOptions(0);
                     // NOTE: maybe we should do this inside the constructor of the TileType enum
-                    Image resizedImage = option.image.getScaledInstance(cellSize,cellSize,Image.SCALE_DEFAULT);
-                    g.drawImage(resizedImage,i * cellSize, j * cellSize, cellSize, cellSize,null);
+                    g.drawImage(option.image,i * cellSize, j * cellSize, cellSize, cellSize,null);
                 } else {
                     // if the tiles is not collapsed yet, just draw the grid where the cell is inside the window
                     g.drawRect(i * cellSize,j * cellSize, cellSize, cellSize);

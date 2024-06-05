@@ -1,5 +1,5 @@
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
@@ -12,25 +12,21 @@ public enum TileType {
     LEFT("images/left.png","BBBA"),
     RIGHT("images/right.png","ABBB");
     final String edges;
-    final BufferedImage image;
+    final Image image;
     // edges should be arranged LEFT UP DOWN RIGHT
     //
     TileType(String filePath, String edges) {
         this.edges = edges;
-        BufferedImage img = null;
+        Image img = null;
         // use try catch loop to load in image
         try {
-            img = ImageIO.read(new File(filePath));
+            img = ImageIO.read(new File(filePath)).getScaledInstance(Main.CELL_SIZE, Main.CELL_SIZE, Image.SCALE_DEFAULT);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error: could not load the image");
         }
         this.image = img;
     }
     public String getEdges() {
         return edges;
-    }
-    public String getReverseEdges() {
-        // get the reverse of the string edges
-        return new StringBuilder(edges).reverse().toString();
     }
 }
