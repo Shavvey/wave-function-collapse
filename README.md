@@ -14,3 +14,8 @@ propogate the information to neighboring tiles
 to constrict their possibile types, and then
 repeat this process until all the tiles
 have been collapsed.
+
+## Compilation
+
+This is a java project, you can just compile each file as onto
+their .class byte code representation
