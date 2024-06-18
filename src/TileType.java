@@ -20,6 +20,7 @@ public enum TileType {
         Image img = null;
         // use try catch loop to load in image
         try {
+            // read the file path provided by enum constructor and scale according to the cell of each cell
             img = ImageIO.read(new File(filePath)).getScaledInstance(Main.CELL_SIZE, Main.CELL_SIZE, Image.SCALE_DEFAULT);
         } catch (IOException e) {
             System.err.println("Error: could not load the image");
