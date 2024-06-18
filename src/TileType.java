@@ -11,6 +11,7 @@ public enum TileType {
     DOWN("images/down.png","BABB"),
     LEFT("images/left.png","BBBA"),
     RIGHT("images/right.png","ABBB");
+    // a string representation of all the edges
     final String edges;
     final Image image;
     // edges should be arranged LEFT UP DOWN RIGHT
