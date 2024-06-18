@@ -107,8 +107,8 @@ public class TileSet {
         Tile tile = tileList.get(randVal);
         // collapse the first tile and then update the neighboring tiles
         final int len = tile.entropy();
-        TileType opt;
-        opt = tile.getOptions(rand.nextInt(0,len));
+        // return a random option that is currently available and then collapse the tile
+        TileType opt = tile.getOptions(rand.nextInt(0,len));
         tile.setOptions(List.of(opt));
         tile.setCollapsed(true);
         // remove collapsed tile from tileList

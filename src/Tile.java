@@ -43,6 +43,7 @@ public class Tile {
     public int getY() {
         return y;
     }
+
     // mod that can handle negative numbers
     static public int mod(int a, int b) {
         return (a % b + b) % b;
@@ -98,6 +99,7 @@ public class Tile {
     Tile(int x, int y) {
         // tiles shouldn't be collapsed yet when constructing the tiles
         isCollapsed = false;
+        // when constructing a tile, it can initially be any of the tiles
         this.options = new ArrayList<>(TileType.values().length);
         options.addAll(List.of(TileType.values()));
         // keeping track of these indices will be useful later on
