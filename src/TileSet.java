@@ -19,8 +19,6 @@ public class TileSet {
     // construct a random seed to pull random number for
     // used in the get random tile method
     private static final Random rand = new Random();
-
-
     // constructor to create the tile set
     private final int cellsPerRow;
     private final int cellSize;

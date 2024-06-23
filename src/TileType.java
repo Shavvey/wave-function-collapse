@@ -24,8 +24,10 @@ public enum TileType {
             // read the file path provided by enum constructor and scale according to the cell of each cell
             img = ImageIO.read(new File(filePath)).getScaledInstance(Main.CELL_SIZE, Main.CELL_SIZE, Image.SCALE_DEFAULT);
         } catch (IOException e) {
+            // raise exception if we cannot read the image
             System.err.println("Error: could not load the image");
         }
+        // assign image to instance var
         this.image = img;
     }
     public String getEdges() {

@@ -1,5 +1,5 @@
 // direction enum useful when iterating across the 2-dimensional tile set
-enum Direction {
+public enum Direction {
     LEFT(-1,0),
     DOWN(0,1),
     UP(0,-1),
