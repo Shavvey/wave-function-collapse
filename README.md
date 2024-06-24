@@ -10,14 +10,14 @@ Essentially, we start with a tile set, where
 each tile can be any of the possible tile types
 we define.
 We collapse the tile of the least entropy,
-propogate the information to neighboring tiles
-to constrict their possibile types, and then
+propagate the information to neighboring tiles
+to constrict their possible types, and then
 repeat this process until all the tiles
 have been collapsed.
 
 ## Compilation
 
-This is a java project, you can just compile each file as onto
+This is a java project, you can just compile each file into
 their .class byte code representation
 
 The class files are also available inside the output directory.
